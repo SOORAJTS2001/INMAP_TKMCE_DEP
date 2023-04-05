@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta name="Description" content="Enter your description here" />
+  <title>Indoor mapping</title>
+
+  <!-- Font Collection -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet" />
+  <!-- font style tags -->
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
+  </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'inmapapp/style.css'%}" />
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script>
+      {% comment %} use this to switch floors {% endcomment %}
+  
+      {% comment %} function switchFloor(){
+        const o1=document.getElementById('overlay1');
+        const o2=document.getElementById('overlay2');
+        console.log(o1.style.display)
+        if(o1.style.left=='-120%'){
+            o1.style.left='0%';
+        }else{
+    o1.style.left='-120%';
+        }
+    
+        if(o2.style.left=='-120%'){
+            o2.style.left='0%';
+        }else{
+            o2.style.left='-120%';
+        }
+      console.log(o1.style.left);
+      console.log(o2.style.left);
+    } {% endcomment %}
+    </script>
+</head>
+<body onload="animateMap()">
+  <div class="container-sm">
+    <nav class="navbar bg-light main-heading" style="font-family: 'Fredoka One', cursive">
+      <div class="container-fluid justify-content-center">
+        <span class="navbar-brand mb-0 h1" style="font-size: 50px"><span class="text-grad-prim">in</span><span
+            class="text-grad-sec">map</span></span>
+      </div>
+    </nav>
+    
+    <input id="width" style="display:none;" name="width" ></input>
+      <input id="height" style="display:none;"  name="height"></input>
+      
+      {%if update %} 
+      <div class="img-container" id="img-container">
+      <div class="img-wrapper" id="overlay1" style="left:0%;">
+        
+        <div class="img-wrapper-overlay"></div>
+        <div class="container-fluid" >
+          <div class="row">
+            <div class="col">
+              <!-- remove this col to get the mobile view of image but the plotting of path is inaccurate -->
+              <img src={%static 'inmapapp/modtkm_map.jpg'%} alt="Image" class="img" />
+          {% comment %} {{data|safe}} {% endcomment %}
+            </div>
+            </div>
+        </div>
+        <div class="border border-primary rounded p-2">Top View</div>
+
+      </div>
+      </div>
+      {%endif%}
+      
+    
+
+    
+    
+
+    
+    <hr/>
+    <h4>Result in {{time}}</h4>
+    <hr/>
+    <div class="qr-heading text-center qr-form2 col-lg-5 mx-auto d-grid gap-3">
+      <h3 class="justify-content-center" style="font-family: 'Dancing Script', cursive; font-size: 30px">
+        feels lost? Rescan to update!
+      </h3>
+      <button type="submit" class="btn btn-grad text-capitalize" onclick="history.back()" style="font-weight:bold">Re-Scan</button>
+
+    </div>
+
+
+
+  </div>
+  <footer class="container py-5 footer text bg-light mt-5">
+    <div class="row ">
+      <div class="col-12 col-md-4 mx-auto text-center">
+
+        <span class="navbar-brand mb-0 h1" style="font-size: 50px"><span class="text-grad-prim">in</span><span
+            class="text-grad-sec">map</span></span>
+      </div>
+
+      <div class="col-12 col-md-3 mx-auto d-flex justify-content-center align-items-center flex-column">
+
+        <ul class=" list-unstyled text-small">
+          <h5>Pages</h5>
+          <li><a class="text-muted " href="index.html"> Home </a></li>
+          <li><a class="text-muted " href="projects.html">Key Projects</a></li>
+
+        </ul>
+      </div>
+
+      <div class="col-12 col-md-4 mx-auto d-flex justify-content-center align-items-center flex-column">
+
+        <ul class="list-unstyled text-small ">
+          <h5>Contact US</h5>
+          <li><a class="text-muted " href="# ">inmapsodev@gmail.com</a></li>
+          <li><a class="text-muted " href="# ">TKM,Karicode, 69105</a></li>
+
+        </ul>
+
+      </div>
+      <!-- <div id="social">
+            <a class="facebookBtn smGlobalBtn" href="#"> <i class="fa fa-facebook"></i></a>
+            <a class="twitterBtn smGlobalBtn" href="#"><i class="fa fa-twitter"></i></a>
+            <a class="googleplusBtn smGlobalBtn" href="#"><i class="fa fa-instagram"></i></a>
+            <a class="linkedinBtn smGlobalBtn" href="#"><i class="fa fa-linkedin"></i></a>
+
+        </div> -->
+    </div>
+  </footer>
+  <script>
+    const El = document.querySelectorAll(".animationEl");
+var delay = 100;
+
+animateMap = () => {
+  console.log("this is working");
+  for (let i = 1; i <= El.length; i++) {
+    transformFn(i);
+    El[i].style.backgroundColor = "#000000";
+  }
+};
+
+transformFn = (i) => {
+  setTimeout(() => {
+    El[i].style.transform = "scale(2)";
+    El[i].style.borderRadius= "100%"
+    El[i].style.zIndex="1";
+    El[i].style.backgroundColor = "#16FF00";
+  }, delay * i);
+
+  setTimeout(() => {
+    El[i - 1].style.transform = "scale(1)";
+    El[i-1].style.backgroundColor="#16FF00";
+    El[i-1].style.borderRadius= "0";
+    El[i-1].style.zIndex="0";
+    El[i-1].style.clipPath = "none";
+  }, delay * i);
+
+  setTimeout(() => {
+    if (i == El.length) {
+    // El[i-1].style.transform="scale(2)";
+    // El[i-1].style.borderRadius="100%";
+      animateMap();
+    }
+  }, delay * i);
+};
+
+      
+
+
+  </script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+ <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+  </body>
+  </html>
