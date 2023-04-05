@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <meta name="Description" content="Enter your description here" />
   <title>Indoor mapping</title>
-
+  <script src="https://kit.fontawesome.com/13949e12af.js" crossorigin="anonymous"></script>
   <!-- Font Collection -->
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet" />
   <!-- font style tags -->
@@ -18,14 +18,22 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'inmapapp/style.css'%}" />
+  <link rel="stylesheet" href="{% static 'inmapapp/animation.css'%}" />
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script>
-      {% comment %} use this to switch floors {% endcomment %}
-  
-      {% comment %} function switchFloor(){
+      
+      {% comment %} this is for the result generated time section it uses jquery {% endcomment %}
+      $(window).scroll(function() {
+        var windowBottom = $(this).scrollTop() + $(this).innerHeight();
+        var elementTop = $('#fade-in-div').offset().top;
+        if (elementTop < windowBottom) {
+          $('#fade-in-div').css('opacity', '1');
+        }
+      });
+      {% comment %} this is used for switching floor section {% endcomment %}
+      function switchFloor(){
         const o1=document.getElementById('overlay1');
         const o2=document.getElementById('overlay2');
         console.log(o1.style.display)
@@ -42,10 +50,10 @@
         }
       console.log(o1.style.left);
       console.log(o2.style.left);
-    } {% endcomment %}
+    }
     </script>
 </head>
-<body onload="animateMap()">
+<body>
   <div class="container-sm">
     <nav class="navbar bg-light main-heading" style="font-family: 'Fredoka One', cursive">
       <div class="container-fluid justify-content-center">
@@ -54,38 +62,50 @@
       </div>
     </nav>
     
-    <input id="width" style="display:none;" name="width" ></input>
-      <input id="height" style="display:none;"  name="height"></input>
+    
       
-      {%if update %} 
       <div class="img-container" id="img-container">
       <div class="img-wrapper" id="overlay1" style="left:0%;">
         
         <div class="img-wrapper-overlay"></div>
-        <div class="container-fluid" >
-          <div class="row">
-            <div class="col">
-              <!-- remove this col to get the mobile view of image but the plotting of path is inaccurate -->
-              <img src={%static 'inmapapp/modtkm_map.jpg'%} alt="Image" class="img" />
-          {% comment %} {{data|safe}} {% endcomment %}
-            </div>
-            </div>
-        </div>
+        <img id="rotate-img" src="{%static 'inmapapp/modtkm_map.jpg' %}" class="img-fluid" alt="...">
         <div class="border border-primary rounded p-2">Top View</div>
-
+       
       </div>
       </div>
-      {%endif%}
       
     
-
-    
-    
-
-    
-    <hr/>
-    <h4>Result in {{time}}</h4>
-    <hr/>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-sm-6 col-md-4 text-center">
+          <i style="color:blue;"class="fas fa-walking fa-2x mb-3 blue-icon animated walking"></i>
+          <h4>Walkable Distance</h4>
+          <p class="lead mb-5">{{solution_meters}}m or {{solution_feet}} steps</p>
+        </div>
+        <div class="col-sm-6 col-md-4 text-center">
+          <i style="color:blue;" class="far fa-clock fa-2x mb-3 blue-icon animated ticking"></i>
+          <h4>Time Taken</h4>
+          <p class="lead mb-5">{{solution_time}} seconds</p>
+        </div>
+        {%if stairs%}
+        <div class="col-sm-6 col-md-4 text-center">
+          <i style="color:blue;" class="fa-solid fa-stairs fa-2x mb-3 blue-icon"></i>
+          <h4>stairs ahead!</h4>
+        {%endif%}
+      </div>
+    </div>
+    <br>
+    <br>
+    <div id="fade-in-div" class="card text-white bg-info mb-3 mx-auto" style="max-width: 18rem;">
+      <div class="card-header">Result Generated in {{time}}s</div>
+      </div>
+    </div>
+    <br>
+    <br>
     <div class="qr-heading text-center qr-form2 col-lg-5 mx-auto d-grid gap-3">
       <h3 class="justify-content-center" style="font-family: 'Dancing Script', cursive; font-size: 30px">
         feels lost? Rescan to update!
@@ -135,50 +155,12 @@
     </div>
   </footer>
   <script>
-    const El = document.querySelectorAll(".animationEl");
-var delay = 100;
-
-animateMap = () => {
-  console.log("this is working");
-  for (let i = 1; i <= El.length; i++) {
-    transformFn(i);
-    El[i].style.backgroundColor = "#000000";
-  }
-};
-
-transformFn = (i) => {
-  setTimeout(() => {
-    El[i].style.transform = "scale(2)";
-    El[i].style.borderRadius= "100%"
-    El[i].style.zIndex="1";
-    El[i].style.backgroundColor = "#16FF00";
-  }, delay * i);
-
-  setTimeout(() => {
-    El[i - 1].style.transform = "scale(1)";
-    El[i-1].style.backgroundColor="#16FF00";
-    El[i-1].style.borderRadius= "0";
-    El[i-1].style.zIndex="0";
-    El[i-1].style.clipPath = "none";
-  }, delay * i);
-
-  setTimeout(() => {
-    if (i == El.length) {
-    // El[i-1].style.transform="scale(2)";
-    // El[i-1].style.borderRadius="100%";
-      animateMap();
-    }
-  }, delay * i);
-};
-
-      
+    
 
 
   </script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
 
 
   </body>
