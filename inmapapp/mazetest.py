@@ -187,20 +187,10 @@ class Maze():
         base_img = cv.imread(os.path.abspath(
             f'inmapapp/static/inmapapp/{self.imagename}'))
 
-        base_img = cv.resize(base_img, (826, 465))
-        # from PIL import Image, ImageDraw
-        # cell_size = 100
-        # cell_border = 2
-
-        # # Create a blank canvas
-        # img = Image.new(
-        #     "RGBA",
-        #     (self.width * cell_size, self.height * cell_size),
-        #     "black"
-        # )
-        # img = Image.open("indoor_map.png")
-        # draw = ImageDraw.Draw(img)
+        base_img = cv.resize(base_img, (826*2, 465*2))
         checkpointlist = []
+        j_proportion = 4.1*2
+        i_proportion = 4.66*2
         solution = self.solution[1] if self.solution is not None else None
         for i, row in enumerate(self.walls):
             for j, col in enumerate(row):
@@ -212,18 +202,18 @@ class Maze():
 
                 # Start
                 elif (i, j) == self.start:
-                    cv.circle(base_img, (round(j*4.2), round(i*4.7)),
+                    cv.circle(base_img, (round(j*j_proportion), round(i*i_proportion)),
                               1, (0, 255, 0), 20)
-                    cv.putText(base_img, 'You are here!', (round(j*4.2)+5, round(i*4.7)+5),
+                    cv.putText(base_img, 'You are here!', (round(j*j_proportion)+5, round(i*i_proportion)+5),
                                cv.FONT_HERSHEY_SIMPLEX, 0.5, (124, 35, 134), 1, cv.LINE_AA)
                     continue
 
                 # Goal
                 elif (i, j) == self.goal:
-                    cv.circle(base_img, (round(j*4.2), round(i*4.7)),
+                    cv.circle(base_img, (round(j*j_proportion), round(i*i_proportion)),
                               1, (243, 215, 124), 20)
                     cv.putText(base_img, 'Your destination', (round(
-                        j*4.2)+5, round(i*4.7)+5), cv.FONT_HERSHEY_SIMPLEX, 0.5, (159, 71, 49), 1, cv.LINE_AA)
+                        j*j_proportion)+5, round(i*i_proportion)+5), cv.FONT_HERSHEY_SIMPLEX, 0.5, (159, 71, 49), 1, cv.LINE_AA)
 
                     continue
 
@@ -250,8 +240,8 @@ class Maze():
                 #     fill=fill
                 # )
                 # /home/sooraj/Documents/PROJECTS/INMAPWEBV2.0/inmapproject/inmapapp/templates/inmapapp/index.html
-
-                cv.circle(base_img, (round(j*4.2), round(i*4.7)), 1, fill, 5)
+                # i is for the height and j is for the width
+                cv.circle(base_img, (round(j*j_proportion), round(i*i_proportion)), 1, fill, 5)
 
         # print(f"for image{self.imagename}")
         # print(checkpointlist)

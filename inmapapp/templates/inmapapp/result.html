@@ -69,27 +69,57 @@
         
         <div class="img-wrapper-overlay"></div>
         <img id="rotate-img" src="{%static 'inmapapp/modtkm_map.jpg' %}" class="img-fluid" alt="...">
-        <div class="border border-primary rounded p-2">Top View</div>
+       
        
       </div>
       </div>
+      <br>
+    <br>
+      <div class="d-flex justify-content-center ">
+      <button type="button" class="btn btn-primary">Top View</button>
+      </div>
+    <br>
+    <br>
+    
+    <div class="d-flex justify-content-center ">
+        <div class="row alert alert-primary ">
+          
+          <div class="col-5">
+            <div class="airport-location">
+              <h5 class="airport-location-title">From:</h5>
+              <div class="airport-location-text">{{From}}</div>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="airport-arrow">
+              <i class="fas fa-long-arrow-alt-right"></i>
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="airport-location">
+              <h5 class="airport-location-title">To:</h5>
+              <div class="airport-location-text">{{To}}</div>
+            </div>
+          </div>
+        </div>
+        </div>
       
+   
     
     <br>
     <br>
-    <br>
-    <br>
+    
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-sm-6 col-md-4 text-center">
           <i style="color:blue;"class="fas fa-walking fa-2x mb-3 blue-icon animated walking"></i>
           <h4>Walkable Distance</h4>
-          <p class="lead mb-5">{{solution_meters}}m or {{solution_feet}} steps</p>
+          <p class="lead mb-5">{{solution_meters}} m or {{solution_feet}} steps</p>
         </div>
         <div class="col-sm-6 col-md-4 text-center">
           <i style="color:blue;" class="far fa-clock fa-2x mb-3 blue-icon animated ticking"></i>
           <h4>Time Taken</h4>
-          <p class="lead mb-5">{{solution_time}} seconds</p>
+          <p class="lead mb-5">{{solution_time}} minutes</p>
         </div>
         {%if stairs%}
         <div class="col-sm-6 col-md-4 text-center">

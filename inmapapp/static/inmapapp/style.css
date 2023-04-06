@@ -256,6 +256,53 @@ z-index:1;
 z-index:2;
 
 }
+.airport-card {
+  margin-bottom: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.airport-location {
+  padding: 10px 0;
+}
+
+.airport-location-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.airport-location-text {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.airport-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+}
+
+.airport-arrow i {
+  font-size: 30px;
+  color: #007bff;
+  animation: move-arrow 2s ease-in-out infinite;
+}
+
+@keyframes move-arrow {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
 
 
 
