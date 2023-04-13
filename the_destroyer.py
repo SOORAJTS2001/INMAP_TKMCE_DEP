@@ -1,7 +1,7 @@
 import os
 import datetime,time
 directory = os.getcwd() 
-images_path = os.path.abspath(f'inmapapp/static/inmapapp/temp_images/')
+images_path = os.path.abspath(f'staticfiles/inmapapp/temp_images')
 # print(images_path)
 # Create the directory if it does not exist
 while True:
