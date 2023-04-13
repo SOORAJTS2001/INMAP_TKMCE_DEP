@@ -4,9 +4,6 @@ directory = os.getcwd()
 images_path = os.path.abspath(f'inmapapp/static/inmapapp/temp_images/')
 # print(images_path)
 # Create the directory if it does not exist
-if not os.path.exists(images_path):
-    print("path is invalid,so i am going to create one")
-    os.makedirs(images_path)
 while True:
     for image_name in os.listdir(images_path):
         print(image_name)
