@@ -1,6 +1,7 @@
 import os
 import datetime,time
-print(os.cwd())
+directory = os.getcwd() 
+print(directory)
 images_path = 'inmapapp/static/inmapapp/temp_images/'
 while True:
     for image_name in os.listdir(images_path):
