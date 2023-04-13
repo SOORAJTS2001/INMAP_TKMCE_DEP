@@ -193,7 +193,7 @@ class Maze():
         filename_timestamp = five_minutes_later.strftime("%H-%M")+".jpg"
         # Read file and set height and width of maze
         base_img = cv.imread(os.path.abspath(
-            f'inmapapp/static/inmapapp/{self.imagename}'))
+            f'inmapapp/static/inmapapp/original_img/{self.imagename}'))
         img_width = 826*2
         img_height = 465*2
         j_proportion = 4.1*2

@@ -127,13 +127,15 @@ STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'static/inmapapp'),
-    os.path.join(BASE_DIR, 'static/inmapapp/temp_images'),
+    os.path.join(BASE_DIR, 'inmapapp/static'),
+    os.path.join(BASE_DIR, 'inmapapp/static/inmapapp/css'),
+    os.path.join(BASE_DIR, 'inmapapp/static/inmapapp/js'),
+    os.path.join(BASE_DIR, 'inmapapp/static/inmapapp/images'),
+    os.path.join(BASE_DIR, 'inmapapp/static/inmapapp/original_img'),
+    os.path.join(BASE_DIR, 'inmapapp/static/inmapapp/text_maps'),
+    os.path.join(BASE_DIR, 'inmapapp/static/inmapapp/temp_images'),
     
 )
-
-STATIC_URL = 'static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

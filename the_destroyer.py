@@ -9,6 +9,7 @@ while True:
         print(image_name)
         current_time = datetime.datetime.now().strftime("%H-%M")
         image_time = image_name.split('.')[0]
+        print("server time is: ",current_time)
         # print(current_time, image_time)
         if current_time >= image_time:
             image_path = os.path.join(images_path, image_name)

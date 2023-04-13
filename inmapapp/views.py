@@ -49,7 +49,7 @@ def index(request):
         # To_y = round(To_y/4.7)
 
         print(From_x, From_y, To_x, To_y)
-        m = Maze(os.path.abspath('inmapapp/static/inmapapp/map.txt'),
+        m = Maze(os.path.abspath('inmapapp/static/inmapapp/text_maps/map.txt'),
                  From_y, From_x, To_y, To_x, "tkm_map.jpg")
         m.solve()
         distance,filename_timestamp = m.output_image()
