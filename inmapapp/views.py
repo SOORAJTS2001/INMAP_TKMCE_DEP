@@ -52,8 +52,8 @@ def index(request):
         m = Maze(os.path.abspath('inmapapp/static/inmapapp/map.txt'),
                  From_y, From_x, To_y, To_x, "tkm_map.jpg")
         m.solve()
-        m.output_image()
-        solution_meters = round(m.output_image()*avg_shift_px)
+        distance,filename_timestamp = m.output_image()
+        solution_meters = round(distance*avg_shift_px)
         solution_time = round(solution_meters*1.2/60,2)
         solution_feet = round(solution_meters*1.3)
         
@@ -67,7 +67,8 @@ def index(request):
         # # return render(request,'inmapapp/result.html',{'floor1':floor1,'floor2':floor2,'time':time.time()-then,"data":ans,'update':True})
 
         now = time.time()
-        return render(request, 'inmapapp/result.html', {"image": "inmapapp/static/inmapapp/modtkm_map.jpg","From":From,"To":To,"time": now-then, "update": True,"solution_meters":solution_meters,"solution_time":solution_time,"solution_feet":solution_feet,"time":round(now-then,2)})
+        print(filename_timestamp)
+        return render(request, 'inmapapp/result.html', {"image": filename_timestamp,"From":From,"To":To,"time": now-then, "update": True,"solution_meters":solution_meters,"solution_time":solution_time,"solution_feet":solution_feet,"time":round(now-then,2)})
         # print(From_x,From_y,To_x,To_y)
 
         # /home/sooraj/Documents/PROJECTS/INMAPWEB/inmapproject/inmapapp/static/inmapapp/map.txt
