@@ -1,383 +1,159 @@
+{% extends "inmapapp/base.html" %}
 {%load static%}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="Description" content="Enter your description here" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+{% block index_page%}
 
-    <!-- Font Collection -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap"
-      rel="stylesheet"
-    />
-    <!-- font style tags -->
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
-    </style>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
-    </style>
-
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-      crossorigin="anonymous"
-    ></script>
-    <link rel="stylesheet" href="{% static 'inmapapp/css/style.css'%}" />
-
-    <title>Indoor mapping</title>
-    
-  </head>
-  <body>
-    <div class="container-sm py-3">
-      
-      <input id="width" style="display:none;" name="width" ></input>
-      <input id="height" style="display:none;"  name="height"></input>
-      
-      <nav
-        class="navbar bg-light main-heading"
-        style="font-family: 'Fredoka One', cursive"
-      >
-        <div class="container-fluid justify-content-center">
-          <span class="navbar-brand mb-0 h1" style="font-size: 50px"
-            ><span class="text-grad-prim">in</span><span class="text-grad-sec">map</span></span
-          >
-        </div>
-      </nav>
-
-      <!-- entire qr related comes under qr class div -->
-      <div class="qr" id="qr">
-        <div class="qr-heading d-flex justify-content-center mt-md-5">
-          <h3
-            class="justify-content-center"
-            style="font-family: 'Dancing Script', cursive; font-size: 30px"
-          >
-            Scan me !
-          </h3>
-        </div>
-        <div class="qr-container mb-5">
-          <!-- need to place the qr code by mahe -->
-          <div class="container">
-            <div class="row">
-              <div class="col">
-                <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-                <div class="col-sm-12 col-md-5 mx-auto mt-md-5">
-                  <video id="preview" style="width: 100%"></video>
-                </div>
-                <script type="text/javascript">
-                  var scanner = new Instascan.Scanner({
-                    video: document.getElementById("preview"),
-                    scanPeriod: 5,
-                    mirror: false,
-                  });
-                  scanner.addListener("scan", function (content) {
-                    document.getElementById("thefrom").value = content;
-                    // alert(content);
-                    //window.location.href=content;
-                  });
-                  Instascan.Camera.getCameras()
-                    .then(function (cameras) {
-                      if (cameras.length > 0) {
-                        scanner.start(cameras[0]);
-                        $('[name="options"]').on("change", function () {
-                          if ($(this).val() == 1) {
-                            if (cameras[0] != "") {
-                              scanner.start(cameras[0]);
-                            } else {
-                              alert("No Front camera found!");
-                            }
-                          } else if ($(this).val() == 2) {
-                            if (cameras[1] != "") {
-                              scanner.start(cameras[1]);
-                            } else {
-                              alert("No Back camera found!");
-                            }
+    <!-- entire qr related comes under qr class div -->
+    <div class="qr" id="qr">
+      <div class="qr-heading d-flex justify-content-center mt-md-5">
+        <h3 class="justify-content-center" style="font-family: 'Dancing Script', cursive; font-size: 30px">
+          Scan me !
+        </h3>
+      </div>
+      <div class="qr-container mb-5">
+        <!-- need to place the qr code by mahe -->
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+              <div class="col-sm-12 col-md-5 mx-auto mt-md-5">
+                <video id="preview" style="width: 100%"></video>
+              </div>
+              <script type="text/javascript">
+                var scanner = new Instascan.Scanner({
+                  video: document.getElementById("preview"),
+                  scanPeriod: 5,
+                  mirror: false,
+                });
+                scanner.addListener("scan", function (content) {
+                  document.getElementById("thefrom").value = content;
+                  // alert(content);
+                  //window.location.href=content;
+                });
+                Instascan.Camera.getCameras()
+                  .then(function (cameras) {
+                    if (cameras.length > 0) {
+                      scanner.start(cameras[0]);
+                      $('[name="options"]').on("change", function () {
+                        if ($(this).val() == 1) {
+                          if (cameras[0] != "") {
+                            scanner.start(cameras[0]);
+                          } else {
+                            alert("No Front camera found!");
                           }
-                        });
-                      } else {
-                        console.error("No cameras found.");
-                        alert("No cameras found.");
-                      }
-                    })
-                    .catch(function (e) {
-                      console.error(e);
-                      alert(e);
-                    });
-                </script>
-                <div class="d-flex justify-content-center mt-md-3">
-                  <div
-                    class="btn-group btn-group-toggle mb-md-5 d-flex justify-content-center"
-                    data-toggle="buttons"
-                  >
-                    <label class="btn btn-grad active">
-                      <input
-                        type="radio"
-                        name="options"
-                        value="1"
-                        autocomplete="off"
-                        checked
-                      />
-                      Front Cam
-                    </label>
-                    <label class="btn btn-grad-sec">
-                      <input
-                        type="radio"
-                        name="options"
-                        value="2"
-                        autocomplete="off"
-                      />
-                      Back Cam
-                    </label>
-                  </div>
+                        } else if ($(this).val() == 2) {
+                          if (cameras[1] != "") {
+                            scanner.start(cameras[1]);
+                          } else {
+                            alert("No Back camera found!");
+                          }
+                        }
+                      });
+                    } else {
+                      console.error("No cameras found.");
+                      alert("No cameras found.");
+                    }
+                  })
+                  .catch(function (e) {
+                    console.error(e);
+                    alert(e);
+                  });
+              </script>
+              <div class="d-flex justify-content-center mt-md-3">
+                <div class="btn-group btn-group-toggle mb-md-5 d-flex justify-content-center" data-toggle="buttons">
+                  <label class="btn btn-grad active">
+                    <input type="radio" name="options" value="1" autocomplete="off" checked />
+                    Front Cam
+                  </label>
+                  <label class="btn btn-grad-sec">
+                    <input type="radio" name="options" value="2" autocomplete="off" />
+                    Back Cam
+                  </label>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <form class="qr-form1 col-lg-5 mx-auto gap-3 d-grid" method="POST">
-          {% csrf_token %}
-          <div class="form-group">
-            <label for="">From</label>
-            <input
-              name="fromLocation"
-              type="text"
-              id="thefrom"
-              class="form-control"
-              id="fromLocation"
-              aria-describedby=""
-              placeholder="from"
-            />
-          </div>
-          <div class="form-group">
-            <label for="">To</label>
-            <select class="form-select" aria-label="Default select example" name="To">
-              {%for key,value in points.items%}
-              <option value="{{key}}">{{key}}</option>
-              {%endfor%}
-              {% comment %} <option selected>Open this select menu</option>
-              <option value="bedroom1-2nd floor">bedroom1-2nd floor</option>
-              <option value="familyroom-2nd floor">familyroom-2nd floor</option>
-              <option value="bath-2nd floor">bath-2nd floor</option>
-              <option value="stairentry-2nd floor">stairentry-2nd floor</option>
-              <option value="empty-2nd floor">empty-2nd floor</option>
-              <option value="stairexit-2nd floor">stairexit-2nd floor</option>
-              <option value="bedroom3-2nd floor">bedroom3-2nd floor</option>
-              <option value="bedroom2-2nd floor">bedroom2-2nd floor</option>
-              <option value="kitchen-1st floor">kitchen-1st floor</option>
-              <option value="bedroom1-1st floor">bedroom1-1st floor</option>
-              <option value="empty-1st floor">empty-1st floor</option>
-              <option value="bath-1st floor">bath-1st floor</option>
-              <option value="bathroom-2nd floor">bathroom-2nd floor</option>
-              <option value="bath2-1st floor">bath2-1st floor</option>
-              <option value="room-1st floor">room-1st floor</option>
-              <option value="stairexit-1st floor">stairexit-1st floor</option>
-              <option value="formaldinnning-1st floor">formaldinnning-1st floor</option>
-              <option value="office-1st floor">office-1st floor</option>
-              <option value="familyroom-1st floor">familyroom-1st floor</option>
-              <option value="exit-1st floor">exit-1st floor</option> {% endcomment %}
-
-            </select>
-          </div>
-
-          <button type="submit" class="btn btn-grad text-capitalize" style="font-weight:bold">
-            find route
-          </button>
-        </form>
-
-        <hr class="mt-5 mb-5"/>
-
-        <div class="qr-heading text-center">
-          <h3
-            class="justify-content-center"
-            style="font-family: 'Dancing Script', cursive; font-size: 30px"
-          >
-            can't scan enter manually !
-          </h3>
-        </div>
-        <form class="qr-form2 col-lg-5 mx-auto d-grid gap-3" method="POST">
-          {% csrf_token %}
-          <div class="form-group">
-            <label for="">From</label>
-            <select class="form-select" aria-label="Default select example" name="manualFrom">
-              {% comment %} <option selected>Open this select menu</option>
-              <option value="bedroom1-2nd floor">bedroom1-2nd floor</option>
-              <option value="familyroom-2nd floor">familyroom-2nd floor</option>
-              <option value="bath-2nd floor">bath-2nd floor</option>
-              <option value="stairentry-2nd floor">stairentry-2nd floor</option>
-              <option value="empty-2nd floor">empty-2nd floor</option>
-              <option value="stairexit-2nd floor">stairexit-2nd floor</option>
-              <option value="bedroom3-2nd floor">bedroom3-2nd floor</option>
-              <option value="bedroom2-2nd floor">bedroom2-2nd floor</option>
-              <option value="kitchen-1st floor">kitchen-1st floor</option>
-              <option value="bedroom1-1st floor">bedroom1-1st floor</option>
-              <option value="empty-1st floor">empty-1st floor</option>
-              <option value="bath-1st floor">bath-1st floor</option>
-              <option value="bathroom-2nd floor">bathroom-2nd floor</option>
-              <option value="bath2-1st floor">bath2-1st floor</option>
-              <option value="room-1st floor">room-1st floor</option>
-              <option value="stairexit-1st floor">stairexit-1st floor</option>
-              <option value="formaldinnning-1st floor">formaldinnning-1st floor</option>
-              <option value="office-1st floor">office-1st floor</option>
-              <option value="familyroom-1st floor">familyroom-1st floor</option>
-              <option value="exit-1st floor">exit-1st floor</option> {% endcomment %}
-              {%for key,value in points.items%}
-              <option value="{{key}}">{{key}}</option>
-              {%endfor%}
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="">To</label>
-            <select class="form-select" aria-label="Default select example" name="manualTo">
-              {% comment %} <option selected>Open this select menu</option>
-              <option value="bedroom1-2nd floor">bedroom1-2nd floor</option>
-              <option value="familyroom-2nd floor">familyroom-2nd floor</option>
-              <option value="bath-2nd floor">bath-2nd floor</option>
-              <option value="stairentry-2nd floor">stairentry-2nd floor</option>
-              <option value="empty-2nd floor">empty-2nd floor</option>
-              <option value="stairexit-2nd floor">stairexit-2nd floor</option>
-              <option value="bedroom3-2nd floor">bedroom3-2nd floor</option>
-              <option value="bedroom2-2nd floor">bedroom2-2nd floor</option>
-              <option value="kitchen-1st floor">kitchen-1st floor</option>
-              <option value="bedroom1-1st floor">bedroom1-1st floor</option>
-              <option value="empty-1st floor">empty-1st floor</option>
-              <option value="bath-1st floor">bath-1st floor</option>
-              <option value="bathroom-2nd floor">bathroom-2nd floor</option>
-              <option value="bath2-1st floor">bath2-1st floor</option>
-              <option value="room-1st floor">room-1st floor</option>
-              <option value="stairexit-1st floor">stairexit-1st floor</option>
-              <option value="formaldinnning-1st floor">formaldinnning-1st floor</option>
-              <option value="office-1st floor">office-1st floor</option>
-              <option value="familyroom-1st floor">familyroom-1st floor</option>
-              <option value="exit-1st floor">exit-1st floor</option> {% endcomment %}
-              {%for key,value in points.items%}
-              <option value="{{key}}">{{key}}</option>
-              {%endfor%}
-            </select>
-          </div>
-
-          <button
-            type="submit"
-            class="btn btn-grad text-capitalize"
-            style="font-weight: bold"
-          >
-            find route
-          </button>
-        </form>
-      </div>
-      <div class="ad mt-5 swiper mySwiper">
-      
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <div class="card card-grad">
-              AD1
-            </div>
-          </div>
-          <div class=" swiper-slide ">
-            <div class="card card-grad2">
-             AD2
-            </div>
-          </div>
-          <div class=" swiper-slide">
-            <div class="card card-grad3">
-             AD3
-            </div>
-          </div>
-          <div class=" swiper-slide">
-            <div class="card card-grad2">
-             AD4
-            </div>
-          </div>
-        </div>
-       
       </div>
 
-      <footer class="container py-5 footer text bg-light mt-5">
-        <div class="row ">
-            <div class="col-12 col-md-4 mx-auto text-center">
-
-              <span class="navbar-brand mb-0 h1" style="font-size: 50px"
-              ><span class="text-grad-prim">in</span><span class="text-grad-sec">map</span></span
-            >
-            </div>
-    
-            <div class="col-12 col-md-3 mx-auto d-flex justify-content-center align-items-center flex-column">
-               
-                <ul class=" list-unstyled text-small">
-                  <h5>Pages</h5>
-                    <li><a class="text-muted " href="index.html"> Home </a></li>
-                    <li><a class="text-muted " href="projects.html">Key Projects</a></li>
-                    
-                </ul>
-            </div>
-    
-            <div class="col-12 col-md-4 mx-auto d-flex justify-content-center align-items-center flex-column">
-               
-                <ul class="list-unstyled text-small ">
-                  <h5>Contact US</h5>
-                    <li><a class="text-muted " href="# ">inmapsodev@gmail.com</a></li>
-                    <li><a class="text-muted " href="# ">TKM,Karicode, 69105</a></li>
-                   
-                </ul>
-    
-            </div>
-            <!-- <div id="social">
-                <a class="facebookBtn smGlobalBtn" href="#"> <i class="fa fa-facebook"></i></a>
-                <a class="twitterBtn smGlobalBtn" href="#"><i class="fa fa-twitter"></i></a>
-                <a class="googleplusBtn smGlobalBtn" href="#"><i class="fa fa-instagram"></i></a>
-                <a class="linkedinBtn smGlobalBtn" href="#"><i class="fa fa-linkedin"></i></a>
-    
-            </div> -->
+      <form class="qr-form1 col-lg-5 mx-auto gap-3 d-grid" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="">From</label>
+          <input name="fromLocation" type="text" id="thefrom" class="form-control" id="fromLocation" aria-describedby=""
+            placeholder="from" />
         </div>
-    </footer>
+        <div class="form-group">
+          <label for="">To</label>
+          <select class="form-select" aria-label="Default select example" name="To">
+            {%for key,value in points.items%}
+            <option value="{{key}}">{{key}}</option>
+            {%endfor%}
+
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-grad text-capitalize" style="font-weight:bold">
+          find route
+        </button>
+      </form>
+
+      <hr class="mt-5 mb-5" />
+
+      <div class="qr-heading text-center">
+        <h3 class="justify-content-center" style="font-family: 'Dancing Script', cursive; font-size: 30px">
+          can't scan enter manually !
+        </h3>
+      </div>
+      <form class="qr-form2 col-lg-5 mx-auto d-grid gap-3" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="">From</label>
+          <select class="form-select" aria-label="Default select example" name="manualFrom">
+            {%for key,value in points.items%}
+            <option value="{{key}}">{{key}}</option>
+            {%endfor%}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="">To</label>
+          <select class="form-select" aria-label="Default select example" name="manualTo">
+            {%for key,value in points.items%}
+            <option value="{{key}}">{{key}}</option>
+            {%endfor%}
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-grad text-capitalize" style="font-weight: bold">
+          find route
+        </button>
+      </form>
     </div>
+    <div class="ad mt-5 swiper mySwiper">
 
-    <script>
-      
-      {% comment %} var w = window.innerWidth;
-      var h = window.innerHeight;
-      
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="card card-grad">
+            AD1
+          </div>
+        </div>
+        <div class=" swiper-slide ">
+          <div class="card card-grad2">
+            AD2
+          </div>
+        </div>
+        <div class=" swiper-slide">
+          <div class="card card-grad3">
+            AD3
+          </div>
+        </div>
+        <div class=" swiper-slide">
+          <div class="card card-grad2">
+            AD4
+          </div>
+        </div>
+      </div>
 
-fetch("/", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ width:w, height:h }),
-}); {% endcomment %}
+    </div>
+    {%endblock%}
 
     
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-    {% comment %} <script>
-      var swiper = new Swiper(".mySwiper", {
-        slidesPerView: 2,
-        spaceBetween: 3,
-        loop:true,
-        autoplay: {
-          delay: 2500,
-          disableOnInteraction: false,
-        },
-       
-      });
-    </script> {% endcomment %}
-  </body>
-</html>

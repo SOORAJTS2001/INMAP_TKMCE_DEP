@@ -16,7 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from inmapapp import urls
+from inmapapi import urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('inmapapp.urls')),
+    path('api/',include('inmapapi.urls')),
+    path('account/',include('inmap_cred.urls')),
+    path('inmap-admin/',include('inmapadmin.urls')),
+
 ]

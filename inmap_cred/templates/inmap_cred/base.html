@@ -1,0 +1,126 @@
+{%load static%}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta name="Description" content="Enter your description here" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Font Collection -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
+  <!-- font style tags -->
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
+  </style>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
+  </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{% static 'inmap_cred/css/style.css'%}" />
+
+  <title>Indoor mapping</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var clipboard = new ClipboardJS('.copy-btn');
+  
+      clipboard.on('success', function(e) {
+        e.clearSelection();
+        var alertContainer = document.querySelector('.alert-success');
+        alertContainer.classList.remove('d-none');
+        setTimeout(function() {
+          alertContainer.classList.add('d-none');
+        }, 600);
+      });
+    });
+  </script>
+  
+</head>
+
+<body>
+  <div class="container-sm py-3">
+
+    <input id="width" style="display:none;" name="width"></input>
+    <input id="height" style="display:none;" name="height"></input>
+
+    <nav class="navbar bg-light main-heading" style="font-family: 'Fredoka One', cursive">
+      <div class="container-fluid justify-content-center">
+        <span class="navbar-brand mb-0 h1" style="font-size: 50px"><span class="text-grad-prim">in</span><span
+            class="text-grad-sec">map</span>
+          <span class="text-grad-prim" style="font-size: 25px">
+            tkmce
+          </span>
+        </span>
+      </div>
+    </nav>
+
+
+    {% block create_account%}
+    {%endblock%}
+
+
+
+
+
+
+    <footer class="container py-5 footer text bg-light mt-5">
+        <div class="row ">
+          <div class="col-12 col-md-4 mx-auto text-center">
+  
+            <span class="navbar-brand mb-0 h1" style="font-size: 50px"><span class="text-grad-prim">in</span><span
+                class="text-grad-sec">map</span><span class="text-grad-prim" style="font-size: 25px">
+                tkmce
+              </span></span>
+          </div>
+  
+          <div class="col-12 col-md-3 mx-auto d-flex justify-content-center align-items-center flex-column">
+  
+            <ul class=" list-unstyled text-small">
+              <h5>Pages</h5>
+              <li><a class="text-muted " href="index.html">API docs</a></li>
+              <li><a class="text-muted " href="projects.html">Contribute</a></li>
+              <li><a class="text-muted " href="projects.html">Changelogs</a></li>
+              <li><a class="text-muted " href="projects.html">Support us</a></li>
+              <li><a class="text-muted " href="projects.html">Report a Bug</a></li>
+              <li><a class="text-muted " href="projects.html">Developers</a></li>
+  
+  
+  
+  
+            </ul>
+          </div>
+  
+          <div class="col-12 col-md-4 mx-auto d-flex justify-content-center align-items-center flex-column">
+  
+            <ul class="list-unstyled text-small ">
+              <h5>Contact Us</h5>
+              <li><a class="text-muted " href="# ">sjts007@gmail.com</a></li>
+              <li><a class="text-muted " href="# ">+91 6282143473</a></li>
+              <li><a class="text-muted " href="# ">TKMCE,Kollam,691005</a></li>
+  
+            </ul>
+  
+          </div>
+        </div>
+      </footer>
+    </div>
+  
+    <script>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+  </body>
+  
+  </html>

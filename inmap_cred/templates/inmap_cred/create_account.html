@@ -1,0 +1,78 @@
+{%extends 'inmap_cred/base.html'%}
+{%block create_account%}
+{% if api_cred%}
+<div class="container">
+    <div class="alert alert-success mt-3 d-none" role="alert">
+        copied to clipboard!
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-10">
+            <p class="card-text">Your API_CRED is :{{api_cred}}</p>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-primary btn-sm copy-btn" data-clipboard-text={{api_cred}}>Copy API_CRED</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%endif%}
+    <br>
+    {% if api_secret%}
+<div class="container">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-10">
+            <p class="card-text">Your API_SECRET is :{{api_secret}}</p>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-primary btn-sm copy-btn" data-clipboard-text={{api_secret}}>Copy API_SECRET</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%endif%}
+      
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="organization">Organization/Club:</label>
+            <select class="form-control" name="organization">
+                <option>ISTE</option>
+                <option>IEEE</option>
+                <option>CROB</option>
+                <option>TINKERHUB</option>
+                <option>SAE</option>
+                <option>IEI</option>
+                <option>HESTIA</option>
+                <option>TEST</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="institution">Institution:</label>
+            <select class="form-control" name="institution">
+                <option>TKMCE</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="requests">Expected Requests per Day:</label>
+            <select class="form-control" name="expected-requests">
+                <option>20</option>
+                <option>80</option>
+                <option>150</option>
+                <option>250</option>
+                <option>250+</option>
+            </select>
+        </div>
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    
+  
+
+{%endblock%}

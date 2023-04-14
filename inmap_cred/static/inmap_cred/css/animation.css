@@ -1,0 +1,49 @@
+.blue-icon {
+    color: blue;
+  }
+  
+  .animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+  }
+  
+  .walking {
+    animation-name: walk;
+  }
+  #fade-in-div {
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+  #rotate-img {
+    transform-origin: center;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  
+  @keyframes walk {
+    0% {
+      transform: translateX(0) scaleX(1);
+    }
+    25% {
+      transform: translateX(20px) scaleX(1.2);
+    }
+    50% {
+      transform: translateX(40px) scaleX(1);
+    }
+    75% {
+      transform: translateX(20px) scaleX(0.8);
+    }
+    100% {
+      transform: translateX(0) scaleX(1);
+    }
+  }
+  .ticking {
+    animation-name: tick;
+  }
+  
+  @keyframes tick {
+    50% {
+      transform: scale(1.2);
+    }
+  }

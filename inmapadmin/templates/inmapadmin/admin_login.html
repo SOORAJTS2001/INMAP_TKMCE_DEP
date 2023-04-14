@@ -1,0 +1,26 @@
+{% extends 'inmapadmin/base.html' %}
+
+{% block admin_login %}
+<span class="text-grad-prim" style="font-size: 25px">
+  Admin Login
+</span>
+  {% if error_message %}
+    <p>{{ error_message }}</p>
+  {% endif %}
+  <div class="container">
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" name="password" required>
+      </div>
+      <br>
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+  </div>
+  
+{% endblock %}

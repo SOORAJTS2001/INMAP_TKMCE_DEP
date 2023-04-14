@@ -1,4 +1,5 @@
 import os
+import PIL.Image
 """
 Django settings for inmapproject project.
 
@@ -34,6 +35,10 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'crispy_forms',
     'inmapapp',
+    'inmapapi',
+    'inmap_cred',
+    'inmapadmin',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -128,6 +133,10 @@ STATIC_URL = '/static/'
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'inmapapp/static'),
+    os.path.join(BASE_DIR, 'inmap_cred/static'),
+    os.path.join(BASE_DIR, 'inmapadmin/static'),
+    os.path.join(BASE_DIR, 'inmapapi/static'),
+    
     
     
 )
