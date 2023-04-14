@@ -19,10 +19,10 @@ def index_api(request):
         # Check if the API credentials are valid
         try:
             api_account = ApiAccounts.objects.get(api_cred=api_cred, api_secret=api_secret) 
+            From_x, From_y = important_points[From]
+            To_x, To_y = important_points[To]
         except ApiAccounts.DoesNotExist:
-            return Response({'error': 'Invalid API credentials'})
-        From_x, From_y = important_points[From]
-        To_x, To_y = important_points[To]
+            return Response({'error': 'Invalid API credentials or invalid "from" or "to" parameters'})
         today = timezone.now().date()
         last_usage_date = api_account.last_used_time.date()
         api_account.total_usage += 1
