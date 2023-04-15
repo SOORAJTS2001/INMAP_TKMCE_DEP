@@ -18,7 +18,10 @@ def get_directory_size(path='.'):
 def delete_files_in_dir(path):
     for root, dirs, files in os.walk(path):
         for file in files:
-            os.remove(os.path.join(root, file))
+            ext = os.path.splitext(file)[-1].lower()
+            if ext in ('.jpg', '.jpeg', '.png'):
+                os.remove(os.path.join(root, file))
+
 
 def admin_login(request):
     if request.method == 'POST':
