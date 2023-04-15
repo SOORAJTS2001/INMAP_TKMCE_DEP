@@ -1,6 +1,54 @@
 {% extends 'inmapadmin/base.html' %}
 +{% load i18n %}
 {% block data%}
+<br>
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+
+<form method="GET" action="{% url 'data' %}">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-danger" name="delete-api" value="delete-api">Delete All Api's</button>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-danger" name="delete-web-images" value="delete-web-images">Delete All Web Images</button>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-danger" name="delete-api-images" value="delete-api-images">Delete All Api Images</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card bg-info">
+        <div class="card-body">
+          <h5 class="card-title text-white">API Images Total Size: {{api_size}} MB|{{api_cnt}} Images</h5>
+          
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card bg-info">
+        <div class="card-body">
+          <h5 class="card-title text-white">Web Images Total Size: {{web_size}} MB|{{web_cnt}} Images</h5>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
 <div class="container">
   <div class="table-responsive">
     <table class="table table-striped table-hover">

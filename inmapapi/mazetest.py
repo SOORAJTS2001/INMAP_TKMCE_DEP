@@ -2,11 +2,15 @@ import sys
 import cv2 as cv
 import time
 import os,datetime
+import copy
+from important_pts_tkmce.important_pts import walls
 # floor1checkpoint = {"kitchen-1st floor":(138, 23), "bedroom1-1st floor":(48, 24), "empty-1st floor":(59, 41), "bath-1st floor":(31, 44), "stairentry-1st floor":(106, 45), "bath2-1st floor":(58, 50), "room-1st floor":(188, 50),"stairexit-1st floor":(106, 53),"familyroom-1st floor":(63, 67), "formaldinnning-1st floor":(100, 68),"office-1st floor":(139, 71), "exit-1st floor":(79, 76)}
 # this is for the second floor
 # floor2checkpoint = {"bedroom1-2nd floor":(56,24), "familyroom-2nd floor":(119, 37), "bath-2nd floor":(32, 45), "stairentry-2nd floor":(143, 45), "empty-2nd floor":(73, 51),"stairexit-2nd floor":(142, 51), "bedroom3-2nd floor":(146, 62),"bedroom2-2nd floor":(74, 63),"bathroom-2nd floor":(107, 72)}
 # floor1 = floor1checkpoint.values()
 # floor2 = floor2checkpoint.values()
+
+
 
 
 class Node():
@@ -72,28 +76,36 @@ class Maze():
 
         # Keep track of walls
         self.walls = []
-        for i in range(self.height):
-            row = []
-            for j in range(self.width):
-                try:
-                    # 56 24 143 45
-                    if i == From_y and j == From_x:
-                        self.start = (i, j)
-                        print(self.start)
-                        row.append(False)
-                    elif i == To_y and j == To_x:
-                        self.goal = (i, j)
-                        print(self.goal)
-                        row.append(False)
-                    elif contents[i][j] == " ":
-                        row.append(False)
-                    elif contents[i][j] == "@":
-                        row.append(False)
-                    else:
-                        row.append(True)
-                except IndexError:
-                    row.append(False)
-            self.walls.append(row)
+        self.walls = copy.deepcopy(walls)
+        self.start = (From_y,From_x)
+        self.goal = (To_y,To_x)
+        self.walls[From_y][From_x]=False
+        self.walls[To_y][To_x]=False
+        
+        # for i in range(self.height):
+        #     row = []
+        #     for j in range(self.width):
+        #         try:
+        #             # 56 24 143 45
+        #             if i == From_y and j == From_x:
+        #                 self.start = (i, j)
+        #                 print(self.start)
+        #                 row.append(True)
+        #             elif i == To_y and j == To_x:
+        #                 self.goal = (i, j)
+        #                 print(self.goal)
+        #                 row.append(True)
+        #             elif contents[i][j] == " ":
+        #                 row.append(False)
+        #             elif contents[i][j] == "@":
+        #                 row.append(False)
+        #             else:
+        #                 row.append(True)
+        #         except IndexError:
+        #             row.append(False)
+            
+        #     self.walls.append(row)
+        # print("the walls are",self.walls)
         self.solution = None
 
 # not updating since it is not using
@@ -192,13 +204,11 @@ class Maze():
         # format the time as a string with only the hour and minutes
         filename_timestamp = five_minutes_later.strftime("%H-%M")+".jpg"
         # Read file and set height and width of maze
-        base_img = cv.imread(os.path.abspath(
-            f'inmapapi/static/inmapapi/original_img/{self.imagename}'))
+        base_img = cv.imread(os.path.abspath(f'inmapapi/static/inmapapi/original_img/{self.imagename}'))
         img_width = 826*2
         img_height = 465*2
         j_proportion = 4.1*2
         i_proportion = 4.66*2
-        base_img = cv.resize(base_img, (img_width, img_height))
         checkpointlist = []
         solution = self.solution[1] if self.solution is not None else None
         for i, row in enumerate(self.walls):

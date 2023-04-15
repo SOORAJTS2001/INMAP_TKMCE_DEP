@@ -7,10 +7,15 @@ from important_pts_tkmce.important_pts import important_points,avg_shift_px
 import os
 from inmap_cred.models import ApiAccounts
 from django.utils import timezone
+import cProfile
+import io
+import pstats
 map_path = os.path.abspath('inmapapi/static/inmapapi/text_maps/map.txt')
 
 @api_view([ 'POST'])
 def index_api(request):
+    # pr = cProfile.Profile()
+    # pr.enable()
     From = request.GET.get('from', '')
     To = request.GET.get('to', '')
     api_cred = request.GET.get('api_cred', '')
@@ -21,8 +26,10 @@ def index_api(request):
             api_account = ApiAccounts.objects.get(api_cred=api_cred, api_secret=api_secret) 
             From_x, From_y = important_points[From]
             To_x, To_y = important_points[To]
-        except ApiAccounts.DoesNotExist or KeyError:
-            return Response({'error': 'Invalid API credentials or invalid "from" or "to" parameters'})
+        except ApiAccounts.DoesNotExist:
+            return Response({'error': 'Invalid API credentials'})
+        except KeyError:
+            return Response({'error': 'Invalid "from" or "to" parameters'})
         today = timezone.now().date()
         last_usage_date = api_account.last_used_time.date()
         api_account.total_usage += 1
@@ -47,7 +54,14 @@ def index_api(request):
         image_model.save()
         # Serialize the model instance and return the response
         serializer = ImageSerializer(image_model)
+        # pr.disable()
+        # s = io.StringIO()
+        # sortby = 'cumulative'
+        # ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+        # ps.print_stats()
+        # print(s.getvalue())
         return Response(serializer.data)
+        
     elif not From or not To and api_secret and api_cred:
         return Response({'error': 'Please provide the "from" and "to" parameters'})
     elif not api_secret or not api_cred:
