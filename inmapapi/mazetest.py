@@ -58,8 +58,8 @@ class Maze():
     def __init__(self, filename, From_x, From_y, To_x, To_y, imagename):
         
         self.imagename = imagename
-        with open(filename) as f:
-            contents = f.read()
+        # with open(filename) as f:
+        #     contents = f.read()
 
         # Validate start and goal
         # if contents.count("A") != 1:
@@ -68,7 +68,7 @@ class Maze():
         #     raise Exception("maze must have exactly one goal")
 
         # Determine height and width of maze
-        contents = contents.splitlines()
+        # contents = contents.splitlines()
         self.height = 100
         self.width = 200
         # print(self.height,self.width)
@@ -202,7 +202,7 @@ class Maze():
         # add five minutes to the current time
         five_minutes_later = now + datetime.timedelta(minutes=5)
         # format the time as a string with only the hour and minutes
-        filename_timestamp = five_minutes_later.strftime("%H-%M")+".jpg"
+        filename_timestamp = five_minutes_later.strftime("%H-%M-%S-%f")+".jpg"
         # Read file and set height and width of maze
         base_img = cv.imread(os.path.abspath(f'inmapapi/static/inmapapi/original_img/{self.imagename}'))
         img_width = 826*2

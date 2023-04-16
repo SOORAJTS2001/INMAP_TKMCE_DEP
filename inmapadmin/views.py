@@ -13,7 +13,9 @@ def get_directory_size(path='.'):
         for filename in filenames:
             file_path = os.path.join(dirpath, filename)
             total_size += os.path.getsize(file_path)
-            total_cnt+=1
+            ext = os.path.splitext(filename)[-1].lower()
+            if ext in ('.jpg', '.jpeg', '.png'):
+                total_cnt+=1
     return round(total_size/(1024*1024),2),total_cnt
 def delete_files_in_dir(path):
     for root, dirs, files in os.walk(path):

@@ -197,7 +197,7 @@ class Maze():
         # add five minutes to the current time
         five_minutes_later = now + datetime.timedelta(minutes=5)
         # format the time as a string with only the hour and minutes
-        filename_timestamp = five_minutes_later.strftime("%H-%M")+".jpg"
+        filename_timestamp = five_minutes_later.strftime("%H-%M-%S-%f")+".jpg"
         # Read file and set height and width of maze
         base_img = cv.imread(os.path.abspath(
             f'inmapapp/static/inmapapp/original_img/{self.imagename}'))
