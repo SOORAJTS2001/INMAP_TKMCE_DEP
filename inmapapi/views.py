@@ -10,6 +10,7 @@ from django.utils import timezone
 import cProfile
 import io
 import pstats
+from django.conf import settings
 map_path = os.path.abspath('inmapapi/static/inmapapi/text_maps/map.txt')
 
 @api_view([ 'POST'])
@@ -45,7 +46,7 @@ def index_api(request):
 
         # Generate the image URL with base URL of your Django app
         base_url = request.build_absolute_uri('/')
-        image_url = f"{base_url}static/inmapapi/temp_images/{filename_timestamp}"
+        image_url = f"{base_url}media/inmapapi/{filename_timestamp}"
         print("generated image of url: ",image_url)
         # Calculate the distance
         distance = round(distance * avg_shift_px)

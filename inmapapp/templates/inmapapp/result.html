@@ -70,7 +70,7 @@
       <div class="img-wrapper" id="overlay1" style="left:0%;">
         
         <div class="img-wrapper-overlay"></div>
-        <img id="rotate-img" src="{% static 'inmapapp/temp_images/'|add:image %}" class="img-fluid" alt="...">
+        <img id="rotate-img" src="{{ MEDIA_URL }}inmapapp/{{image}}" class="img-fluid" alt="...">
        {{image}}
        
       </div>

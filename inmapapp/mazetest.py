@@ -277,7 +277,7 @@ class Maze():
         # print(self.solution)
 
         cv.imwrite(os.path.abspath(
-            f'inmapapp/static/inmapapp/temp_images/{filename_timestamp}'), base_img)
+            f'media/inmapapp/{filename_timestamp}'), base_img)
         return len(self.solution[1]),filename_timestamp
         # img.save(filename)
 
