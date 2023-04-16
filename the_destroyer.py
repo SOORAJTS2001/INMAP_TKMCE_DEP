@@ -19,14 +19,8 @@ file_name = '16-46-21-804193.jpg'
 
 # Walk through the directory tree starting from the root directory
 for root, dirs, files in os.walk(web_img_path):
-    if file_name in files:
-        # If the file is found, print its full path
-        file_path = os.path.join(root, file_name)
-        print(f"File '{file_name}' found at '{file_path}'")
-        break
-else:
-    # If the file is not found, print an error message
-    print(f"File '{file_name}' not found in directory tree starting from '{web_img_path}'")
+    print(root,dirs,files)
+
 
 # Loop indefinitely
 # while True:
