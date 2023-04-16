@@ -18,8 +18,10 @@ file_name = '16-46-21-804193.jpg'
 
 
 # Walk through the directory tree starting from the root directory
-for root, dirs, files in os.walk(web_img_path):
-    print(root,dirs,files)
+while True:
+    for root, dirs, files in os.walk(web_img_path):
+        print(root,dirs,files)
+    time.sleep(60)
 
 
 # Loop indefinitely
