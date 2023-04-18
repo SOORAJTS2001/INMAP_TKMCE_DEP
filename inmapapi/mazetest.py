@@ -200,7 +200,7 @@ class Maze():
         # get the current time
         now = datetime.datetime.now()
         # add five minutes to the current time
-        five_minutes_later = now + datetime.timedelta(minutes=5)
+        five_minutes_later = now + datetime.timedelta(minutes=3)
         # format the time as a string with only the hour and minutes
         filename_timestamp = five_minutes_later.strftime("%H-%M-%S-%f")+".jpg"
         # Read file and set height and width of maze

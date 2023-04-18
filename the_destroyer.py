@@ -2,9 +2,9 @@ import os
 import datetime
 import time
 import pytz
-from important_pts_tkmce.important_pts import web_img_path,api_img_path
-
-
+from important_pts_tkmce.important_pts import web_img_path,api_img_path,main_url,test_url
+import requests
+from termcolor import colored
 # Set the time zone to Asia/Kolkata
 tz = pytz.timezone('Asia/Kolkata')
 print(os.getcwd())
@@ -26,22 +26,10 @@ import os
 
 # Loop indefinitely
 while True:
-    for image_name in os.listdir(web_img_path):
-        print(image_name)
-        current_time = datetime.datetime.now(tz).strftime("%H-%M-%S-%f")
-        image_time = image_name.split('.')[0]
-        print("server time for web image is: ", current_time)
-        if current_time >= image_time:
-            image_path = os.path.join(web_img_path, image_name)
-            print("deleted web image: " + image_time + ".jpg")
-            os.remove(image_path)
-    for image_name in os.listdir(api_img_path):
-        print(image_name)
-        current_time = datetime.datetime.now(tz).strftime("%H-%M-%S-%f")
-        image_time = image_name.split('.')[0]
-        print("server time for api image is: ", current_time)
-        if current_time >= image_time:
-            image_path = os.path.join(api_img_path, image_name)
-            print("deleted api image: " + image_time + ".jpg")
-            os.remove(image_path)
-    time.sleep(60)
+    print(colored("worker :sending the message to delete the unused images", 'blue', attrs=['bold']))
+    response = requests.post(f'{main_url}inmap-admin/delete-images/',{'secret_key':'sooraj123*'})
+    print("worker :sended the command and returned with a status code",response.json)
+    print(colored("worker :going to sleep for 3 minutes", 'blue', attrs=['bold']))
+    time.sleep(180)
+
+
