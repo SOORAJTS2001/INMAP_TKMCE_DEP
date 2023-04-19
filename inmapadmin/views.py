@@ -8,6 +8,9 @@ from important_pts_tkmce.important_pts import api_img_path,web_img_path
 import os,datetime,pytz
 from django.http import JsonResponse
 from termcolor import colored
+from django.http import HttpResponse
+from inmapproject.settings import BASE_DIR
+from wsgiref.util import FileWrapper
 tz = pytz.timezone('Asia/Kolkata')
 def get_directory_size(path='.'):
     total_size = 0
@@ -61,7 +64,15 @@ def inmap_admin(request):
             api_size=0.0
             api_cnt=0
             messages.success(request, 'All API images deleted successfully!')
-
+        elif request.GET.get('backup-database'):
+            os.system('python3 manage.py dumpdata > backup-db.json')
+            messages.success(request, 'Database backup created successfully!')
+            # Open the file for reading
+            with open('backup-db.json', 'rb') as f:
+                response = HttpResponse(FileWrapper(f), content_type='application/json')
+                response['Content-Disposition'] = 'attachment; filename=backup-db.json'
+                return response
+        
     api_accounts = ApiAccounts.objects.all()
     return render(request, 'inmapadmin/inmap_admin.html', {'api_accounts': api_accounts,'api_size':api_size,'web_size':web_size,'api_cnt':api_cnt,'web_cnt':web_cnt})
 def delete_by_worker(request):
@@ -69,26 +80,25 @@ def delete_by_worker(request):
     api_img_cnt=0
     if request.POST.get('secret_key') == 'sooraj123*':
             for image_name in os.listdir(web_img_path):
-                print(image_name)
+                # print(image_name)
                 current_time = datetime.datetime.now(tz).strftime("%H-%M-%S-%f")
                 image_time = image_name.split('.')[0]
-                print("server time for web image is: ", current_time)
+                # print("server time for web image is: ", current_time)
                 if current_time >= image_time:
                     image_path = os.path.join(web_img_path, image_name)
-                    print(colored("admin: deleted web image: " + image_time + ".jpg", 'red', attrs=['bold']))
+                    # print(colored("admin: deleted web image: " + image_time + ".jpg", 'red', attrs=['bold']))
                     os.remove(image_path)
                     web_img_cnt+=1
             for image_name in os.listdir(api_img_path):
-                print(image_name)
+                # print(image_name)
                 current_time = datetime.datetime.now(tz).strftime("%H-%M-%S-%f")
                 image_time = image_name.split('.')[0]
-                print("server time for api image is: ", current_time)
+                # print("server time for api image is: ", current_time)
                 if current_time >= image_time:
                     image_path = os.path.join(api_img_path, image_name)
-                    print(colored("admin: deleted api image: " + image_time + ".jpg", 'red', attrs=['bold']))
+                    # print(colored("admin: deleted api image: " + image_time + ".jpg", 'red', attrs=['bold']))
                     os.remove(image_path)
                     api_img_cnt+=1
-            print()
             print(colored(f"admin: successfully deleted {web_img_cnt} web images and {api_img_cnt} api images", 'green', attrs=['bold']))
             return JsonResponse({'message': f'successfully deleted {web_img_path} web images and {api_img_cnt} api images'}, status=200)
             

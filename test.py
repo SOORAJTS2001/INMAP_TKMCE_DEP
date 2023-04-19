@@ -11,10 +11,12 @@
 # for keys in important_points:
 #     print("("+"'"+keys+"'"+","+"'"+keys+"'"+"),")
 # get the current time
-import datetime
-now = datetime.datetime.now()
-# add five minutes to the current time
-five_minutes_later = now + datetime.timedelta(minutes=5)
-# format the time as a string with only the hour and minutes
-filename_timestamp = five_minutes_later.strftime("%H-%M")
-print(filename_timestamp)
+# import datetime
+# now = datetime.datetime.now()
+# # add five minutes to the current time
+# five_minutes_later = now + datetime.timedelta(minutes=5)
+# # format the time as a string with only the hour and minutes
+# filename_timestamp = five_minutes_later.strftime("%H-%M")
+# print(filename_timestamp)
+from important_pts_tkmce.important_pts import important_points
+print(list(important_points.keys()))
