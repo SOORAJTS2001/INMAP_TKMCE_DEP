@@ -2,237 +2,214 @@
 {%load static%}
 {% block index_page%}
 
-    <!-- entire qr related comes under qr class div -->
-    <div class="qr" id="qr">
-      <div class="qr-heading d-flex justify-content-center mt-md-5">
-        <h3 class="justify-content-center" style="font-family: 'Dancing Script', cursive; font-size: 30px">
-          Scan me !
-        </h3>
-      </div>
-      <div class="qr-container mb-5">
-        <!-- need to place the qr code by mahe -->
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-              <div class="col-sm-12 col-md-5 mx-auto mt-md-5">
-                <video id="preview" style="width: 100%"></video>
-              </div>
-              <script type="text/javascript">
-                var scanner = new Instascan.Scanner({
-                  video: document.getElementById("preview"),
-                  scanPeriod: 5,
-                  mirror: false,
-                });
-                scanner.addListener("scan", function (content) {
-                  document.getElementById("thefrom").value = content;
-                  content = new URL(content);
-                    const from_position = content.searchParams.get("from_position");
-                    document.getElementById("thefrom").value = from_position;
-                    document.getElementById("copypos").innerHTML = from_position;
-                    console.log(from_position)
-                    if(from_position.trim() !== "") {
-                      document.getElementById("workon-fill-btn").style.display = "block";
-                    } else {
-                      document.getElementById("workon-fill-btn").style.display = "none";
-                    }
-                    console.log(content)
-                  // alert(content);
-                  //window.location.href=content;
-                });
-                Instascan.Camera.getCameras()
-                  .then(function (cameras) {
-                    if (cameras.length=1) {
-                      console.log("camera for laptop")
-                      scanner.start(cameras[0]);
-                      $('[name="options"]').on("change", function () {
-                        if ($(this).val() == 1) {
-                          if (cameras[0] != "") {
-                            scanner.start(cameras[0]);
-                          } else {
-                            alert("No Front camera found!");
-                          }
-                        } else if ($(this).val() == 2) {
-                          if (cameras[1] != "") {
-                            scanner.start(cameras[1]);
-                          } else {
-                            alert("No Back camera found!");
-                          }
-                        }
-                      });
-                    }
-                    else if (cameras.length=2)
-                    {
-                      console.log("camera for phone")
-                      scanner.start(cameras[1]);
-                      $('[name="options"]').on("change", function () {
-                        if ($(this).val() == 1) {
-                          if (cameras[0] != "") {
-                            scanner.start(cameras[0]);
-                          } else {
-                            alert("No Front camera found!");
-                          }
-                        } else if ($(this).val() == 2) {
-                          if (cameras[1] != "") {
-                            scanner.start(cameras[1]);
-                          } else {
-                            alert("No Back camera found!");
-                          }
-                        }
-                      });
-                    }
-                    else {
-                      console.error("No cameras found.");
-                      alert("No cameras found.");
-                    }
-                  })
-                  .catch(function (e) {
-                    console.error(e);
-                    alert(e);
+<!-- entire qr related comes under qr class div -->
+<div class="qr" id="qr">
+  <div class="qr-heading d-flex justify-content-center mt-md-5">
+    <h3 class="justify-content-center" style="font-family: 'Dancing Script', cursive; font-size: 30px">
+      Scan me !
+    </h3>
+  </div>
+  <div class="qr-container mb-5">
+    <!-- need to place the qr code by mahe -->
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+          <div class="col-sm-12 col-md-5 mx-auto mt-md-5">
+            <video id="preview" style="width: 100%"></video>
+          </div>
+          <script type="text/javascript">
+            var scanner = new Instascan.Scanner({
+              video: document.getElementById("preview"),
+              scanPeriod: 5,
+              mirror: false,
+            });
+            scanner.addListener("scan", function (content) {
+              document.getElementById("thefrom").value = content;
+              content = new URL(content);
+              const from_position = content.searchParams.get("from_position");
+              document.getElementById("thefrom").value = from_position;
+              document.getElementById("copypos").innerHTML = from_position;
+              console.log(from_position)
+              if (from_position.trim() !== "") {
+                document.getElementById("workon-fill-btn").style.display = "block";
+              } else {
+                document.getElementById("workon-fill-btn").style.display = "none";
+              }
+              console.log(content)
+              // alert(content);
+              //window.location.href=content;
+            });
+            Instascan.Camera.getCameras()
+              .then(function (cameras) {
+                var selectedCamera;
+                if (cameras.length > 0) {
+                  // Check if there is a back camera available
+                  var backCamera = cameras.find(function (camera) {
+                    return camera.name.indexOf('back') !== -1;
                   });
-              </script>
-              <div class="d-flex justify-content-center mt-md-3">
-                <div class="btn-group btn-group-toggle mb-md-5 d-flex justify-content-center" data-toggle="buttons">
-                  <label class="btn btn-grad active">
-                    <input type="radio" name="options" value="1" autocomplete="off" checked />
-                    Front Cam
-                  </label>
-                  <label class="btn btn-grad-sec">
-                    <input type="radio" name="options" value="2" autocomplete="off" />
-                    Back Cam
-                  </label>
-                </div>
-              </div>
+
+                  // If there is a back camera, use it as the default
+                  if (backCamera) {
+                    selectedCamera = backCamera;
+                  } else {
+                    selectedCamera = cameras[0]; // Use the first camera as the default
+                  }
+
+                  scanner.start(selectedCamera);
+
+                  $('[name="options"]').on("change", function () {
+                    if ($(this).val() == 1) {
+                      if (cameras[0] != "") {
+                        scanner.start(cameras[0]);
+                      } else {
+                        alert("No Front camera found!");
+                      }
+                    } else if ($(this).val() == 2) {
+                      if (selectedCamera) {
+                        scanner.start(selectedCamera);
+                      } else {
+                        alert("No Back camera found!");
+                      }
+                    }
+                  });
+                } else {
+                  console.error("No cameras found.");
+                  alert("No cameras found.");
+                }
+              })
+              .catch(function (e) {
+                console.error(e);
+                alert(e);
+              });
+
+          </script>
+          <div class="d-flex justify-content-center mt-md-3">
+            <div class="btn-group btn-group-toggle mb-md-5 d-flex justify-content-center" data-toggle="buttons">
+              <label class="btn btn-grad active">
+                <input type="radio" name="options" value="1" autocomplete="off" checked />
+                Front Cam
+              </label>
+              <label class="btn btn-grad-sec">
+                <input type="radio" name="options" value="2" autocomplete="off" />
+                Back Cam
+              </label>
             </div>
           </div>
         </div>
       </div>
-      <form class="qr-form1 col-lg-5 mx-auto gap-3 d-grid" method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="">From</label>
-          {% if  from_position%}
-          <input
-            name="fromLocation"
-            type="text"
-            id="thefrom"
-            class="form-control"
-            id="fromLocation"
-            aria-describedby=""
-            placeholder="from"
-            value="{{from_position}}"
-          />
-          {%else%}
-
-          <input
-            name="fromLocation"
-            type="text"
-            id="thefrom"
-            class="form-control"
-            id="fromLocation"
-            aria-describedby=""
-            placeholder="from"
-          />
-          {%endif%}
-        </div>
-       <span id="copyText" hidden> <span id="current-url"></span>?to_position=<span id="copypos"></span></span>
-       
-       <button  style="display:none;"id = "workon-fill-btn" type="button" onclick="copyText()" class="btn btn-success">Share Your Location</button>
-        <div class="form-group">
-          <label for="">To</label>
-          <select class="form-select" aria-label="Default select example" name="To">
-            {% if  to_position%}
-            <option selected>{{to_position}}</option>
-            {%else%}
-            {%for key,value in points.items%}
-            <option value="{{key}}">{{key}}</option>
-            {%endfor%}
-{%endif%}
-          </select>
-        </div>
-        <button type="submit" class="btn btn-grad text-capitalize" style="font-weight:bold" method="POST">
-          find route
-        </button>
-      </form>
-      {% comment %} <form class="qr-form1 col-lg-5 mx-auto gap-3 d-grid" method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="">From</label>
-          <input name="fromLocation" type="text" id="thefrom" class="form-control" id="fromLocation" aria-describedby=""
-            placeholder="from" />
-        </div>
-        <div class="form-group">
-          <label for="">To</label>
-          <select class="form-select" aria-label="Default select example" name="To">
-            {%for key,value in points.items%}
-            <option value="{{key}}">{{key}}</option>
-            {%endfor%}
-
-          </select>
-        </div>
-
-        <button type="submit" class="btn btn-grad text-capitalize" style="font-weight:bold">
-          find route
-        </button>
-      </form> {% endcomment %}
-
-      <hr class="mt-5 mb-5" />
-
-      <div class="qr-heading text-center">
-        <h3 class="justify-content-center" style="font-family: 'Dancing Script', cursive; font-size: 30px">
-          can't scan enter manually !
-        </h3>
-      </div>
-      <form class="qr-form2 col-lg-5 mx-auto d-grid gap-3" method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="">From</label>
-          <select class="form-select" aria-label="Default select example" name="manualFrom">
-            {%for key,value in points.items%}
-            <option value="{{key}}">{{key}}</option>
-            {%endfor%}
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="">To</label>
-          <select class="form-select" aria-label="Default select example" name="manualTo">
-            {%for key,value in points.items%}
-            <option value="{{key}}">{{key}}</option>
-            {%endfor%}
-          </select>
-        </div>
-
-        <button type="submit" class="btn btn-grad text-capitalize" style="font-weight: bold">
-          find route
-        </button>
-      </form>
     </div>
-    <div class="ad mt-5 swiper mySwiper">
+  </div>
+  <form class="qr-form1 col-lg-5 mx-auto gap-3 d-grid" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="">From</label>
+      {% if from_position%}
+      <input name="fromLocation" type="text" id="thefrom" class="form-control" id="fromLocation" aria-describedby=""
+        placeholder="from" value="{{from_position}}" />
+      {%else%}
 
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <div class="card card-grad">
-            AD1
-          </div>
-        </div>
-        <div class=" swiper-slide ">
-          <div class="card card-grad2">
-            AD2
-          </div>
-        </div>
-        <div class=" swiper-slide">
-          <div class="card card-grad3">
-            AD3
-          </div>
-        </div>
-        <div class=" swiper-slide">
-          <div class="card card-grad2">
-            AD4
-          </div>
-        </div>
-      </div>
-
+      <input name="fromLocation" type="text" id="thefrom" class="form-control" id="fromLocation" aria-describedby=""
+        placeholder="from" />
+      {%endif%}
     </div>
-    {%endblock%}
+    <span id="copyText" hidden> <span id="current-url"></span>?to_position=<span id="copypos"></span></span>
 
-    
+    <button style="display:none;" id="workon-fill-btn" type="button" onclick="copyText()" class="btn btn-success">Share
+      Your Location</button>
+    <div class="form-group">
+      <label for="">To</label>
+      <select class="form-select" aria-label="Default select example" name="To">
+        {% if to_position%}
+        <option selected>{{to_position}}</option>
+        {%else%}
+        {%for key,value in points.items%}
+        <option value="{{key}}">{{key}}</option>
+        {%endfor%}
+        {%endif%}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-grad text-capitalize" style="font-weight:bold" method="POST">
+      find route
+    </button>
+  </form>
+  {% comment %} <form class="qr-form1 col-lg-5 mx-auto gap-3 d-grid" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="">From</label>
+      <input name="fromLocation" type="text" id="thefrom" class="form-control" id="fromLocation" aria-describedby=""
+        placeholder="from" />
+    </div>
+    <div class="form-group">
+      <label for="">To</label>
+      <select class="form-select" aria-label="Default select example" name="To">
+        {%for key,value in points.items%}
+        <option value="{{key}}">{{key}}</option>
+        {%endfor%}
+
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-grad text-capitalize" style="font-weight:bold">
+      find route
+    </button>
+  </form> {% endcomment %}
+
+  <hr class="mt-5 mb-5" />
+
+  <div class="qr-heading text-center">
+    <h3 class="justify-content-center" style="font-family: 'Dancing Script', cursive; font-size: 30px">
+      can't scan enter manually !
+    </h3>
+  </div>
+  <form class="qr-form2 col-lg-5 mx-auto d-grid gap-3" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="">From</label>
+      <select class="form-select" aria-label="Default select example" name="manualFrom">
+        {%for key,value in points.items%}
+        <option value="{{key}}">{{key}}</option>
+        {%endfor%}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="">To</label>
+      <select class="form-select" aria-label="Default select example" name="manualTo">
+        {%for key,value in points.items%}
+        <option value="{{key}}">{{key}}</option>
+        {%endfor%}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-grad text-capitalize" style="font-weight: bold">
+      find route
+    </button>
+  </form>
+</div>
+<div class="ad mt-5 swiper mySwiper">
+
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">
+      <div class="card card-grad">
+        AD1
+      </div>
+    </div>
+    <div class=" swiper-slide ">
+      <div class="card card-grad2">
+        AD2
+      </div>
+    </div>
+    <div class=" swiper-slide">
+      <div class="card card-grad3">
+        AD3
+      </div>
+    </div>
+    <div class=" swiper-slide">
+      <div class="card card-grad2">
+        AD4
+      </div>
+    </div>
+  </div>
+
+</div>
+{%endblock%}
