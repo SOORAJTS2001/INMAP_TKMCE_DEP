@@ -53,7 +53,7 @@ def index(request):
 
         print(From_x, From_y, To_x, To_y)
         m = Maze(map_path,
-                 From_y, From_x, To_y, To_x, "tkm_map.jpg")
+                 From_y, From_x, To_y, To_x, "resized_tkmce.jpg")
         m.solve()
         distance,filename_timestamp = m.output_image()
         solution_meters = round(distance*avg_shift_px)

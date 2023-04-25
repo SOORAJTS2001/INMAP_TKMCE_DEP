@@ -205,7 +205,6 @@ class Maze():
         img_height = 465*2
         j_proportion = 4.05*2
         i_proportion = 4.66*2
-        base_img = cv.resize(base_img, (img_width, img_height))
         checkpointlist = []
         solution = self.solution[1] if self.solution is not None else None
         for i, row in enumerate(self.walls):
