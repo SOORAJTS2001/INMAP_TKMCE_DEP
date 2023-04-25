@@ -18,5 +18,8 @@
 # # format the time as a string with only the hour and minutes
 # filename_timestamp = five_minutes_later.strftime("%H-%M")
 # print(filename_timestamp)
-from important_pts_tkmce.important_pts import important_points
-print(list(important_points.keys()))
+# from important_pts_tkmce.important_pts import important_points
+# print(list(important_points.keys()))
+import requests
+result = requests.post('https://inmapapp.herokuapp.com/api/',params={'from':'badminton_court','to':'backgate','api_cred':'PZUPME3TQ5BCHE08','api_secret':'3ED7ZUPMRRUDLF26XG959OY7ZAP97TF7'})
+print(result.json())

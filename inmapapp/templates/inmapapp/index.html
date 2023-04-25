@@ -26,12 +26,24 @@
                 });
                 scanner.addListener("scan", function (content) {
                   document.getElementById("thefrom").value = content;
+                  content = new URL(content);
+                    const from_position = content.searchParams.get("from_position");
+                    document.getElementById("thefrom").value = from_position;
+                    document.getElementById("copypos").innerHTML = from_position;
+                    console.log(from_position)
+                    if(from_position.trim() !== "") {
+                      document.getElementById("workon-fill-btn").style.display = "block";
+                    } else {
+                      document.getElementById("workon-fill-btn").style.display = "none";
+                    }
+                    console.log(content)
                   // alert(content);
                   //window.location.href=content;
                 });
                 Instascan.Camera.getCameras()
                   .then(function (cameras) {
-                    if (cameras.length > 0) {
+                    if (cameras.length=1) {
+                      console.log("camera for laptop")
                       scanner.start(cameras[0]);
                       $('[name="options"]').on("change", function () {
                         if ($(this).val() == 1) {
@@ -48,7 +60,28 @@
                           }
                         }
                       });
-                    } else {
+                    }
+                    else if (cameras.length=2)
+                    {
+                      console.log("camera for phone")
+                      scanner.start(cameras[1]);
+                      $('[name="options"]').on("change", function () {
+                        if ($(this).val() == 1) {
+                          if (cameras[0] != "") {
+                            scanner.start(cameras[0]);
+                          } else {
+                            alert("No Front camera found!");
+                          }
+                        } else if ($(this).val() == 2) {
+                          if (cameras[1] != "") {
+                            scanner.start(cameras[1]);
+                          } else {
+                            alert("No Back camera found!");
+                          }
+                        }
+                      });
+                    }
+                    else {
                       console.error("No cameras found.");
                       alert("No cameras found.");
                     }
@@ -74,8 +107,54 @@
           </div>
         </div>
       </div>
-
       <form class="qr-form1 col-lg-5 mx-auto gap-3 d-grid" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="">From</label>
+          {% if  from_position%}
+          <input
+            name="fromLocation"
+            type="text"
+            id="thefrom"
+            class="form-control"
+            id="fromLocation"
+            aria-describedby=""
+            placeholder="from"
+            value="{{from_position}}"
+          />
+          {%else%}
+
+          <input
+            name="fromLocation"
+            type="text"
+            id="thefrom"
+            class="form-control"
+            id="fromLocation"
+            aria-describedby=""
+            placeholder="from"
+          />
+          {%endif%}
+        </div>
+       <span id="copyText" hidden> <span id="current-url"></span>?to_position=<span id="copypos"></span></span>
+       
+       <button  style="display:none;"id = "workon-fill-btn" type="button" onclick="copyText()" class="btn btn-success">Share Your Location</button>
+        <div class="form-group">
+          <label for="">To</label>
+          <select class="form-select" aria-label="Default select example" name="To">
+            {% if  to_position%}
+            <option selected>{{to_position}}</option>
+            {%else%}
+            {%for key,value in points.items%}
+            <option value="{{key}}">{{key}}</option>
+            {%endfor%}
+{%endif%}
+          </select>
+        </div>
+        <button type="submit" class="btn btn-grad text-capitalize" style="font-weight:bold" method="POST">
+          find route
+        </button>
+      </form>
+      {% comment %} <form class="qr-form1 col-lg-5 mx-auto gap-3 d-grid" method="POST">
         {% csrf_token %}
         <div class="form-group">
           <label for="">From</label>
@@ -95,7 +174,7 @@
         <button type="submit" class="btn btn-grad text-capitalize" style="font-weight:bold">
           find route
         </button>
-      </form>
+      </form> {% endcomment %}
 
       <hr class="mt-5 mb-5" />
 

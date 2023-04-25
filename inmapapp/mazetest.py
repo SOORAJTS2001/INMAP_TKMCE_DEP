@@ -3,13 +3,13 @@ import cv2 as cv
 import time
 import os,datetime,copy
 from django.core.cache import cache
-from important_pts_tkmce.important_pts import walls
+from important_pts_tkmce.important_pts import walls,important_points
 # floor1checkpoint = {"kitchen-1st floor":(138, 23), "bedroom1-1st floor":(48, 24), "empty-1st floor":(59, 41), "bath-1st floor":(31, 44), "stairentry-1st floor":(106, 45), "bath2-1st floor":(58, 50), "room-1st floor":(188, 50),"stairexit-1st floor":(106, 53),"familyroom-1st floor":(63, 67), "formaldinnning-1st floor":(100, 68),"office-1st floor":(139, 71), "exit-1st floor":(79, 76)}
 # this is for the second floor
 # floor2checkpoint = {"bedroom1-2nd floor":(56,24), "familyroom-2nd floor":(119, 37), "bath-2nd floor":(32, 45), "stairentry-2nd floor":(143, 45), "empty-2nd floor":(73, 51),"stairexit-2nd floor":(142, 51), "bedroom3-2nd floor":(146, 62),"bedroom2-2nd floor":(74, 63),"bathroom-2nd floor":(107, 72)}
 # floor1 = floor1checkpoint.values()
 # floor2 = floor2checkpoint.values()
-
+important_points = important_points.values()
 
 class Node():
     def __init__(self, state, parent, action):
@@ -203,7 +203,7 @@ class Maze():
             f'inmapapp/static/inmapapp/original_img/{self.imagename}'))
         img_width = 826*2
         img_height = 465*2
-        j_proportion = 4.1*2
+        j_proportion = 4.05*2
         i_proportion = 4.66*2
         base_img = cv.resize(base_img, (img_width, img_height))
         checkpointlist = []
@@ -261,19 +261,13 @@ class Maze():
 
         # print(f"for image{self.imagename}")
         # print(checkpointlist)
-        # for checkpoints in checkpointlist:
-        #     for points in floor1:
-        #         x_distance = abs(checkpoints[1]-points[0])
-        #         y_distance = abs(checkpoints[0]-points[1])
-        #         if x_distance<=2 and y_distance<=2:
-        #             print(f"checkpoint{checkpoints} is near to point{points} of floor1")
-        #             cv.circle(base_img,(round(checkpoints[1]*4.2),round(checkpoints[0]*4.7)),1,(0,0,255),5)
-        #     for points in floor2:
-        #         x_distance = abs(checkpoints[1]-points[0])
-        #         y_distance = abs(checkpoints[0]-points[1])
-        #         if x_distance<=2 and y_distance<=2:
-        #             print(f"checkpoint{checkpoints} is near to point{points} of floor2")
-        #             cv.circle(base_img,(round(checkpoints[1]*4.2),round(checkpoints[0]*4.7)),1,(0,0,255),5)
+        for checkpoints in checkpointlist:
+            for points in important_points:
+                x_distance = abs(checkpoints[1]-points[0])
+                y_distance = abs(checkpoints[0]-points[1])
+                if x_distance<=5 and y_distance<=5:
+                    print(f"checkpoint{checkpoints} is near to point{points} of floor1")
+                    cv.circle(base_img,(round(checkpoints[1]*j_proportion),round(checkpoints[0]*i_proportion)),1,(110,8,10),5)
         # print(self.solution)
 
         cv.imwrite(os.path.abspath(

@@ -29,7 +29,9 @@ def index(request):
     # pr = cProfile.Profile()
     # pr.enable()
     if request.method == "GET":
-        return render(request, 'inmapapp/index.html', {"points": important_points, 'image': "inmapapp/tkm_map_normal.jpg", 'time': '', 'update': False})
+        to_position = request.GET.get('to_position')
+        from_position = request.GET.get('from_position')
+        return render(request,'inmapapp/index.html',{"points": important_points,'image':"inmapapp/MAP.png",'time':'','update':False,'to_position':to_position,'from_position':from_position})    
     elif (request.method == "POST"):
         then = time.time()
         FromAuto = request.POST.get('fromLocation')
@@ -66,6 +68,8 @@ def index(request):
         # ps.print_stats()
         # print(s.getvalue())
         return render(request, 'inmapapp/result.html', {"image": filename_timestamp,"From":From,"To":To,"time": now-then, "update": True,"solution_meters":solution_meters,"solution_time":solution_time,"solution_feet":solution_feet,"time":round(now-then,2)})
+def documentation(request):
+    return render(request, 'inmapapp/docs.html')
 
 
 

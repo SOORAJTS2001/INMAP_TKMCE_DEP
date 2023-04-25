@@ -34,6 +34,7 @@
 </head>
 
 <body>
+  <div id="alertContainer"></div>
   <div id="loader">
     <div id="shadow"></div>
     <div id="box"></div>
@@ -103,15 +104,49 @@
           </div>
         </div>
       </footer>
-    </div>
+  </div>
     <script>
       const loader = document.getElementById("loader");
-  
+      
       // When the page finishes loading, hide the loader
       window.onload = function() {
         loader.style.display = "none";
-        document.body.style.background='white';
+        
       }
+      var currentUrl = window.location.origin + window.location.pathname;
+      document.getElementById("current-url").innerHTML = currentUrl;
+      function copyText() {
+        // Get the text to copy
+        var text = document.getElementById("copyText").innerText;
+        if (navigator.share) {
+          navigator.share({
+            title: 'This is my location',
+            text: "Hey I'm here, come find me!",
+            url: text
+          })
+          .then(() => console.log('Shared successfully'))
+          .catch((error) => console.error('Error sharing:', error));
+      } else {
+        // Fallback to copy the URL to clipboard
+        
+        navigator.clipboard.writeText(text)
+         // .then(() => alert('URL copied to clipboard'))
+          var alertContainer = document.getElementById("alertContainer");
+          var alert = document.createElement("div");
+          alert.classList.add("alert", "alert-success");
+          alert.setAttribute("role", "alert");
+          alert.innerText = "Copied to clipboard!";
+
+          // Append alert to container
+          alertContainer.appendChild(alert);
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+         // .catch((error) => console.error('Error copying URL to clipboard:', error));
+      }
+    }
+
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>

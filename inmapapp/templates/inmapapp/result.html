@@ -24,7 +24,7 @@
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script>
       
-      {% comment %} this is for the result generated time section it uses jquery {% endcomment %}
+      //  this is for the result generated time section it uses jquery 
       $(window).scroll(function() {
         var windowBottom = $(this).scrollTop() + $(this).innerHeight();
         var elementTop = $('#fade-in-div').offset().top;
@@ -32,7 +32,7 @@
           $('#fade-in-div').css('opacity', '1');
         }
       });
-      {% comment %} this is used for switching floor section {% endcomment %}
+      // this is used for switching floor section 
       function switchFloor(){
         const o1=document.getElementById('overlay1');
         const o2=document.getElementById('overlay2');
@@ -77,6 +77,49 @@
       </div>
       <br>
     <br>
+    <div class="row">
+      <div class="col">
+        <div class="card border-primary" style="max-width: 18rem;">
+          <div class="card-body text-primary">
+            <div class="dot-start" style="width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              background-color: green;"></div><p class="card-text">Start</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border-primary" style="max-width: 18rem;">
+          <div class="card-body text-primary">
+            <div class="dot-start" style="width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              background-color: red;"></div><p class="card-text">Destination</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border-primary" style="max-width: 18rem;">
+          <div class="card-body text-primary">
+            <div class="dot-start" style="width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              background-color: blue;"></div><p class="card-text">Path</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border-primary" style="max-width: 18rem;">
+          <div class="card-body text-primary">
+            <div class="dot-start" style="width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              background-color: rgb(10, 8, 110);"></div><p class="card-text">Checkpoints</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
       <div class="d-flex justify-content-center ">
       <button type="button" class="btn btn-primary">Top View</button>
       </div>
@@ -111,6 +154,10 @@
     <br>
     <br>
     
+    
+    
+<br>
+<br>    
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-sm-6 col-md-4 text-center">
