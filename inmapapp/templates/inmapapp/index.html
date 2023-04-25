@@ -52,8 +52,10 @@
                   // If there is a back camera, use it as the default
                   if (backCamera) {
                     selectedCamera = backCamera;
+                    $(this).val() == 2
                   } else {
-                    selectedCamera = cameras[0]; // Use the first camera as the default
+                    selectedCamera = cameras[0];
+                    $(this).val() == 1 // Use the first camera as the default
                   }
 
                   scanner.start(selectedCamera);
