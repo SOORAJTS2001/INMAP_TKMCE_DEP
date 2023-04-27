@@ -5,8 +5,11 @@
 <!-- entire qr related comes under qr class div -->
 <div class="qr" id="qr">
   <div class="qr-heading d-flex justify-content-center mt-md-5">
-    <h3 class="justify-content-center" style="font-family: 'Dancing Script', cursive; font-size: 30px">
-      Scan me !
+    <h3
+      class="justify-content-center"
+      style="font-size: 20px"
+    >
+      SCAN <span style="color:green;">ME!</span>
     </h3>
   </div>
   <div class="qr-container mb-5">
@@ -131,7 +134,7 @@
         {%endif%}
       </select>
     </div>
-    <button type="submit" class="btn btn-grad text-capitalize" style="font-weight:bold" method="POST">
+    <button type="submit" class="btn btn-grad-sec text-capitalize" style="font-weight:bold" method="POST">
       find route
     </button>
   </form>
@@ -152,7 +155,7 @@
       </select>
     </div>
 
-    <button type="submit" class="btn btn-grad text-capitalize" style="font-weight:bold">
+    <button type="submit" class="btn btn-grad-sec text-capitalize" style="font-weight:bold">
       find route
     </button>
   </form> {% endcomment %}
@@ -160,9 +163,13 @@
   <hr class="mt-5 mb-5" />
 
   <div class="qr-heading text-center">
-    <h3 class="justify-content-center" style="font-family: 'Dancing Script', cursive; font-size: 30px">
-      can't scan enter manually !
-    </h3>
+    <h3
+            class="justify-content-center"
+            style="font-size: 20px"
+          >
+            CAN'T <span style="color:red;">SCAN!!</span> <br> ENTER <span style="color:green;">MANUALLY</span>
+          </h3>
+          <br>
   </div>
   <form class="qr-form2 col-lg-5 mx-auto d-grid gap-3" method="POST">
     {% csrf_token %}
@@ -183,35 +190,9 @@
       </select>
     </div>
 
-    <button type="submit" class="btn btn-grad text-capitalize" style="font-weight: bold">
+    <button type="submit" class="btn btn-grad-sec text-capitalize" style="font-weight: bold">
       find route
     </button>
   </form>
-</div>
-<div class="ad mt-5 swiper mySwiper">
-
-  <div class="swiper-wrapper">
-    <div class="swiper-slide">
-      <div class="card card-grad">
-        AD1
-      </div>
-    </div>
-    <div class=" swiper-slide ">
-      <div class="card card-grad2">
-        AD2
-      </div>
-    </div>
-    <div class=" swiper-slide">
-      <div class="card card-grad3">
-        AD3
-      </div>
-    </div>
-    <div class=" swiper-slide">
-      <div class="card card-grad2">
-        AD4
-      </div>
-    </div>
-  </div>
-
 </div>
 {%endblock%}
