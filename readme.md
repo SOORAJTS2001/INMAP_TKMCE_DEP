@@ -1,6 +1,5 @@
 # This is the readme for the project INMAP TKMCE
-# This project is a part of the INMAP project
-# This project is developed by me as a student of TKMCE
+
 
 ## It has mainly four apps in it 
 ### 1. inmap_cred - for creating account and api for the developers
@@ -23,9 +22,7 @@
 ### 1. `git clone https://github.com/SOORAJTS2001/INMAP_TKMCE_DEP`
 ### 2. `python -m venv venv`
 ### 3. `pip install -r requirements.txt`
-### 4. `python manage.py runserver`
-### 5. Open the link in the browser
-
-
-
-
+### 4. `python manage.py makemigrations`
+### 5. `python manage.py migrate`
+### 6. `python manage.py runserver`
+### 7. Open the link in the browser
